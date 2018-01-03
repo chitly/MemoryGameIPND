@@ -117,6 +117,32 @@ h1 {
 /*
  * Styles for the timer
  */
+
 .timer {
     padding-left: 70px;
+}
+
+/*
+ * Styles for the won game screen
+ */
+
+.hide {
+    visibility: hidden;
+}
+
+.check {
+    color: #4ffa40;
+    padding: 100px 0px 50px;
+}
+
+.button {
+    background-color: cadetblue;
+    color: white;
+    height: 50px;
+    width: 150px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

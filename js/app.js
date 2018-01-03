@@ -109,11 +109,27 @@ function startGame() {
     }
 
     function checkWonGame() {
-        var timeSec = $('.timer').text();
+        var wonGameDom = $('.won-game');
+        var containerDom = $('.container');
+        var timeSec;
+        var restartButton;
         if (matchPairCards === 8) {
-            alert(`Congratulations! You Won in ${timeSec} Seconds!\n` +
-                `With ${moves} Moves and ${stars} Stars.\n` +
-                'Woooooo!');
+            clearInterval(timer);
+            timeSec = $('.timer').text();
+            wonGameDom.append(`<div class="container">` +
+                `<div class="fa fa-check-circle-o fa-5x check"></div>` +
+                `<header><h1>Congratulations! You Won in ${timeSec} Seconds!</h1></header>` +
+                `<p>With ${moves} Moves and ${stars} Stars.</p>` +
+                `<p>Woooooo!</p></div>`);
+            restartButton = $('<a class="button">Play again!</a>');
+            restartButton.click(evt =>{
+                $('.restart').click();
+                containerDom.removeClass('hide');
+                wonGameDom.find('*').remove();
+            });
+            wonGameDom.find('.container').append(restartButton);
+            wonGameDom.removeClass('hide');
+            containerDom.addClass('hide');
         }
     }
 
