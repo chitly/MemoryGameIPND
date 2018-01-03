@@ -53,6 +53,10 @@ $('.deck').on('click', '.card', evt => {
     if(cardDom.hasClass('fa')) {
         cardDom = cardDom.parent();
     }
+    if(cardDom.hasClass('match') || cardDom.hasClass('wrong')) {
+        return;
+    }
+
     cardDom.toggleClass('open show');
     cardDom.hasClass('open show') ? countOpenedCards++ : countOpenedCards--;
     if(countOpenedCards === 0) {
@@ -66,6 +70,20 @@ $('.deck').on('click', '.card', evt => {
     }
 });
 
-function checkEqualCards(card1, card2) {
-    console.log(card1.attr('class') === card2.attr('class'));
+function checkEqualCards(cardDom1, cardDom2) {
+    var card1 = cardDom1.find('i');
+    var card2 = cardDom2.find('i');
+    if(card1.attr('class') === card2.attr('class')){
+        console.log('equal');
+        cardDom1.attr('class','card open match');
+        cardDom2.attr('class','card open match');
+    } else {
+        console.log('not equal');
+        cardDom1.attr('class','card open wrong');
+        cardDom2.attr('class','card open wrong');
+        setTimeout(()=>{
+            cardDom1.attr('class','card');
+            cardDom2.attr('class','card');
+        },500);
+    }
 }
