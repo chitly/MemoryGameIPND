@@ -58,7 +58,7 @@ function startGame() {
     var stars = 3;
 
     /* 
-     * Add onclick for each card in deck that toggle open and close itself
+     * Add onclick for each card in deck can open the card.
      * After that, check the 2 cards are open. If yes, check equal for both cards.
      */
     $('.deck').on('click', '.card', evt => {
@@ -66,15 +66,14 @@ function startGame() {
         if (cardDom.hasClass('fa')) {
             cardDom = cardDom.parent();
         }
-        if (cardDom.hasClass('match') || cardDom.hasClass('wrong')) {
+        if (cardDom.hasClass('open')) {
             return;
         }
 
-        cardDom.toggleClass('open show');
-        cardDom.hasClass('open show') ? countOpenedCards++ : countOpenedCards--;
-        if (countOpenedCards === 0) {
-            openedCard = null;
-        } else if (countOpenedCards === 1) {
+        cardDom.addClass('open show');
+        countOpenedCards++;
+
+        if (countOpenedCards === 1) {
             openedCard = cardDom;
         } else {
             checkEqualCards(openedCard, cardDom);
