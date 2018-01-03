@@ -1,3 +1,4 @@
+// Start the game after loaded html file.
 $(startGame);
 
 var timer;
@@ -56,6 +57,10 @@ function startGame() {
     var moves = 0;
     var stars = 3;
 
+    /* 
+     * Add onclick for each card in deck that toggle open and close itself
+     * After that, check the 2 cards are open. If yes, check equal for both cards.
+     */
     $('.deck').on('click', '.card', evt => {
         var cardDom = $(evt.target);
         if (cardDom.hasClass('fa')) {
@@ -78,6 +83,11 @@ function startGame() {
         }
     });
 
+    /* 
+     * Check 2 cards are same type or not same.
+     * if same increase the value of match pair card by 1
+     * After that, update the card dom, the add move and check won game.
+     */
     function checkEqualCards(cardDom1, cardDom2) {
         var card1 = cardDom1.find('i');
         var card2 = cardDom2.find('i');
@@ -97,6 +107,10 @@ function startGame() {
         checkWonGame();
     }
 
+    /* 
+     * Add move after clicked 2 cards and decresed the star if moves equal 10 or 15.
+     * After that, update the screen.
+     */
     function addMove() {
         var moveDom = $('.moves');
         var starDom = $('.stars');
@@ -108,6 +122,12 @@ function startGame() {
         }
     }
 
+    /* 
+     * Check match pair cards equals 8? If equals, end game.
+     * The end game have to stop the timer and show the won game screen
+     * After that add the time, moves, stars to won game screen.
+     * Finally, add the play again button that clicked to restart the game.
+     */
     function checkWonGame() {
         var wonGameDom = $('.won-game');
         var containerDom = $('.container');
@@ -133,12 +153,19 @@ function startGame() {
         }
     }
 
+    // Create the timer
     timer = setInterval(function () {
         var timerDom = $('.timer');
         timerDom.text(Number(timerDom.text()) + 1);
     }, 1000);
 }
 
+/* 
+ * Add onclick event to restart button
+ * This function will set move to zero then change stars back to full stars.
+ * Clear all dom in class deck and reset timer.
+ * Finally start game again.
+ */
 $('.restart').click(evt => {
     var moveDom = $('.moves');
     var starDom = $('.stars');
