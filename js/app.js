@@ -1,5 +1,7 @@
 $(startGame);
 
+var timer;
+
 function startGame() {
     /*
      * Create a list that holds all of your cards
@@ -107,22 +109,31 @@ function startGame() {
     }
 
     function checkWonGame() {
+        var timeSec = $('.timer').text();
         if (matchPairCards === 8) {
-            alert('Congratulations! You Won!\n' +
-                `With ${moves} Moves and ${stars} stars.\n` +
+            alert(`Congratulations! You Won in ${timeSec} Seconds!\n` +
+                `With ${moves} Moves and ${stars} Stars.\n` +
                 'Woooooo!');
         }
     }
+
+    timer = setInterval(function () {
+        var timerDom = $('.timer');
+        timerDom.text(Number(timerDom.text()) + 1);
+    }, 1000);
 }
 
 $('.restart').click(evt => {
     var moveDom = $('.moves');
     var starDom = $('.stars');
-    var containerDom = $('.container');
+    var deckDom = $('.deck');
+    var timerDom = $('.timer');
 
     moveDom.text(0);
     starDom.find('.fa-star-o').attr('class', 'fa fa-star');
-    containerDom.find('.deck').remove();
-    containerDom.append('<ul class="deck"></ul>');
+    deckDom.find('*').remove();
+    deckDom.off('click');
+    clearInterval(timer);
+    timerDom.text(0);
     startGame();
 });

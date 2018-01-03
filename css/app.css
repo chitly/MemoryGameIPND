@@ -113,3 +113,10 @@ h1 {
     float: right;
     cursor: pointer;
 }
+
+/*
+ * Styles for the timer
+ */
+.timer {
+    padding-left: 70px;
+}
