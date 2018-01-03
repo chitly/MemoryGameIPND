@@ -47,21 +47,24 @@ function shuffle(array) {
  */
 var countOpenedCards = 0;
 var openedCard = null;
+var matchPairCards = 0;
+var moves = 0;
+var stars = 3;
 
 $('.deck').on('click', '.card', evt => {
     var cardDom = $(evt.target);
-    if(cardDom.hasClass('fa')) {
+    if (cardDom.hasClass('fa')) {
         cardDom = cardDom.parent();
     }
-    if(cardDom.hasClass('match') || cardDom.hasClass('wrong')) {
+    if (cardDom.hasClass('match') || cardDom.hasClass('wrong')) {
         return;
     }
 
     cardDom.toggleClass('open show');
     cardDom.hasClass('open show') ? countOpenedCards++ : countOpenedCards--;
-    if(countOpenedCards === 0) {
+    if (countOpenedCards === 0) {
         openedCard = null;
-    } else if(countOpenedCards === 1) {
+    } else if (countOpenedCards === 1) {
         openedCard = cardDom;
     } else {
         checkEqualCards(openedCard, cardDom);
@@ -73,17 +76,37 @@ $('.deck').on('click', '.card', evt => {
 function checkEqualCards(cardDom1, cardDom2) {
     var card1 = cardDom1.find('i');
     var card2 = cardDom2.find('i');
-    if(card1.attr('class') === card2.attr('class')){
-        console.log('equal');
-        cardDom1.attr('class','card open match');
-        cardDom2.attr('class','card open match');
+    if (card1.attr('class') === card2.attr('class')) {
+        cardDom1.attr('class', 'card open match');
+        cardDom2.attr('class', 'card open match');
+        matchPairCards++;
     } else {
-        console.log('not equal');
-        cardDom1.attr('class','card open wrong');
-        cardDom2.attr('class','card open wrong');
-        setTimeout(()=>{
-            cardDom1.attr('class','card');
-            cardDom2.attr('class','card');
-        },500);
+        cardDom1.attr('class', 'card open wrong');
+        cardDom2.attr('class', 'card open wrong');
+        setTimeout(() => {
+            cardDom1.attr('class', 'card');
+            cardDom2.attr('class', 'card');
+        }, 500);
+    }
+    addMove();
+    checkWonGame();
+}
+
+function addMove() {
+    var moveDom = $('.moves');
+    var starDom = $('.stars');
+    moves++;
+    moveDom.text(moves);
+    if (moves === 10 || moves === 15) {
+        stars--;
+        starDom.find('.fa-star').last().attr('class', 'fa fa-star-o');
+    }
+}
+
+function checkWonGame() {
+    if (matchPairCards === 8) {
+        alert('Congratulations! You Won!\n' +
+            `With ${moves} Moves and ${stars} stars.\n` +
+            'Woooooo!');
     }
 }
