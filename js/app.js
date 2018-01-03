@@ -56,6 +56,7 @@ function startGame() {
     var matchPairCards = 0;
     var moves = 0;
     var stars = 3;
+    var isStart = false;
 
     /* 
      * Add onclick for each card in deck can open the card.
@@ -70,6 +71,7 @@ function startGame() {
             return;
         }
 
+        checkStartGame();
         cardDom.addClass('open show');
         countOpenedCards++;
 
@@ -81,6 +83,19 @@ function startGame() {
             openedCard = null;
         }
     });
+
+    // If the game just started, start the timer.
+    function checkStartGame() {
+        if (isStart) {
+            return;
+        }
+
+        isStart = true;
+        timer = setInterval(function () {
+            var timerDom = $('.timer');
+            timerDom.text(Number(timerDom.text()) + 1);
+        }, 1000);
+    }
 
     /* 
      * Check 2 cards are same type or not same.
@@ -141,7 +156,7 @@ function startGame() {
                 `<p>With ${moves} Moves and ${stars} Stars.</p>` +
                 `<p>Woooooo!</p></div>`);
             restartButton = $('<a class="button">Play again!</a>');
-            restartButton.click(evt =>{
+            restartButton.click(evt => {
                 $('.restart').click();
                 containerDom.removeClass('hide');
                 wonGameDom.find('*').remove();
@@ -151,12 +166,6 @@ function startGame() {
             containerDom.addClass('hide');
         }
     }
-
-    // Create the timer
-    timer = setInterval(function () {
-        var timerDom = $('.timer');
-        timerDom.text(Number(timerDom.text()) + 1);
-    }, 1000);
 }
 
 /* 
