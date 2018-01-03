@@ -45,3 +45,27 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+var countOpenedCards = 0;
+var openedCard = null;
+
+$('.deck').on('click', '.card', evt => {
+    var cardDom = $(evt.target);
+    if(cardDom.hasClass('fa')) {
+        cardDom = cardDom.parent();
+    }
+    cardDom.toggleClass('open show');
+    cardDom.hasClass('open show') ? countOpenedCards++ : countOpenedCards--;
+    if(countOpenedCards === 0) {
+        openedCard = null;
+    } else if(countOpenedCards === 1) {
+        openedCard = cardDom;
+    } else {
+        checkEqualCards(openedCard, cardDom);
+        countOpenedCards = 0;
+        openedCard = null;
+    }
+});
+
+function checkEqualCards(card1, card2) {
+    console.log(card1.attr('class') === card2.attr('class'));
+}
